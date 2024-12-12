@@ -10,14 +10,16 @@
             Trophy.Add(new Trophy(
                 sportclub: "Hajduk",
                 trophyname: "Rabuzinovo Sunce",
+                rank: 1,
                 year: 2023,
-                location: "Rijeka"
+                sponsors: new List<string> { "Sponsor A", "Sponsor B" }
             ));
             Trophy.Add(new Trophy(
-                sportclub: "Hajduk",
-                trophyname: "Prva liga",
+                sportclub: "Barcelona",
+                trophyname: "La Liga",
+                rank: 1,
                 year: 2025,
-                location: "Sibenik"
+                sponsors: new List<string> { "Sponsor A", "Sponsor B" }
             ));
         }
     }

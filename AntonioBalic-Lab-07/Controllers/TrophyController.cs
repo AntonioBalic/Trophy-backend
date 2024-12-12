@@ -25,6 +25,10 @@ namespace AntonioBalic_Lab_07.Controllers
         [HttpPost("new")]
         public IEnumerable<Trophy> AddNewTrophy([FromBody] Trophy trophy)
         {
+            if (trophy.Sponsors == null)
+            {
+                trophy.Sponsors = new List<string>();
+            }
             _trophyRepository.Trophy.Add(trophy);
             return _trophyRepository.Trophy;
         }
@@ -49,8 +53,9 @@ namespace AntonioBalic_Lab_07.Controllers
             {
                 oldTrophy.Sportclub = updatedTrophy.Sportclub;
                 oldTrophy.Trophyname = updatedTrophy.Trophyname;
+                oldTrophy.Rank = updatedTrophy.Rank;
                 oldTrophy.Year = updatedTrophy.Year;
-                oldTrophy.Location = updatedTrophy.Location;
+                oldTrophy.Sponsors = updatedTrophy.Sponsors;
 
                 return _trophyRepository.Trophy;
             }
