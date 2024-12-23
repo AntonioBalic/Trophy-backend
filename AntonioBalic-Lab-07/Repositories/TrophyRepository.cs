@@ -12,14 +12,14 @@
                 trophyname: "Rabuzinovo Sunce",
                 rank: 1,
                 year: 2023,
-                sponsors: new List<string> { "Sponsor A", "Sponsor B" }
+                sponsors: new List<string> { "Supersport"}
             ));
             Trophy.Add(new Trophy(
                 sportclub: "Barcelona",
                 trophyname: "La Liga",
                 rank: 1,
                 year: 2025,
-                sponsors: new List<string> { "Sponsor A", "Sponsor B" }
+                sponsors: new List<string> { "EA Sports", "Microsoft" }
             ));
         }
     }

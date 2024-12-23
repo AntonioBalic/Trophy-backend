@@ -29,6 +29,7 @@ namespace AntonioBalic_Lab_07.Controllers
             {
                 trophy.Sponsors = new List<string>();
             }
+            trophy.Id = Guid.NewGuid();
             _trophyRepository.Trophy.Add(trophy);
             return _trophyRepository.Trophy;
         }
