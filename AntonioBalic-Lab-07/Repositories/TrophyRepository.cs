@@ -2,7 +2,7 @@
 
 namespace AntonioBalic_Lab_07.Repositories
 {
-    public class TrophyRepository
+    public class TrophyRepository : ITrophyRepository
     {
         private List<Trophy> Trophy;
 
