@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AntonioBalic_Lab_07.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AntonioBalic_Lab_07.Repositories
 {
     public class TrophyRepository : ITrophyRepository
     {
-        private List<Trophy> Trophy;
+        private List<Trophy> Trophy { get; set; }
 
         public IEnumerable<Trophy> GetTrophies()
         {
@@ -13,22 +14,17 @@ namespace AntonioBalic_Lab_07.Repositories
 
         public IEnumerable<Trophy> AddTrophy([FromBody] Trophy trophy)
         {
-            if (trophy.Sponsors == null)
-            {
-                trophy.Sponsors = new List<string>();
-            }
-            trophy.Id = Guid.NewGuid();
             Trophy.Add(trophy);
             return Trophy;
         }
 
-        public IEnumerable<Trophy> DeleteTrophy([FromRoute] Guid id)
+        public IEnumerable<Trophy> DeleteTrophy([FromRoute] long id)
         {
             Trophy = Trophy.Where(x => x.Id != id).ToList();
             return Trophy;
         }
 
-        public IEnumerable<Trophy> UpdateTrophy([FromRoute] Guid id, [FromBody] Trophy updatedTrophy)
+        public IEnumerable<Trophy> UpdateTrophy([FromRoute] long id, [FromBody] Trophy updatedTrophy)
         {
             var oldTrophy = Trophy.FirstOrDefault(x => x.Id == id);
 
