@@ -59,7 +59,7 @@ namespace AntonioBalic_Lab_07.Repositories
 
             var command = connection.CreateCommand();
             command.CommandText =
-            "SELECT ID, Sportclub, Trophyname, Rank, Year, Sponsors FROM Trophies";  //bilo je s @
+            "SELECT ID, Sportclub, Trophyname, Rank, Year, Sponsors FROM Trophies";
 
             using var reader = command.ExecuteReader();
 
@@ -110,13 +110,7 @@ namespace AntonioBalic_Lab_07.Repositories
             _ = command.ExecuteNonQuery();
 
 
-            // Only because it returns a list of emails
             return GetTrophies();
         }
-
-        //public TrophySqlRepository()
-        //{
-
-        //}
     }
 }

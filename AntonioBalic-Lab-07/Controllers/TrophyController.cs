@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using AntonioBalic_Lab_07.Repositories;
 using AntonioBalic_Lab_07.Models;
+using AntonioBalic_Lab_07.Logic;
 
 namespace AntonioBalic_Lab_07.Controllers
 {
@@ -9,35 +10,35 @@ namespace AntonioBalic_Lab_07.Controllers
     [ApiController]
     public class TrophyController : ControllerBase
     {      
-        private ITrophyRepository _trophyRepository;
+        private ITrophyLogic _trophyLogic;
 
-        public TrophyController(ITrophyRepository trophyRepository)
+        public TrophyController(ITrophyLogic trophyLogic)
         {
-            _trophyRepository = trophyRepository;
+            _trophyLogic = trophyLogic;
         }
 
         [HttpGet("all")]
         public IEnumerable<Trophy> GetTrophies()
         {
-            return _trophyRepository.GetTrophies();
+            return _trophyLogic.GetTrophies();
         }
 
         [HttpPost("new")]
         public IEnumerable<Trophy> AddNewTrophy([FromBody] Trophy trophy)
         {
-            return _trophyRepository.AddTrophy(trophy);
+            return _trophyLogic.AddTrophy(trophy);
         }
 
         [HttpDelete("delete/{id}")]
         public IEnumerable<Trophy> DeleteTrophy([FromRoute] long id)
         {
-            return _trophyRepository.DeleteTrophy(id);
+            return _trophyLogic.DeleteTrophy(id);
         }
 
         [HttpPut("update/{id}")]
         public IEnumerable<Trophy> UpdateTrophy([FromRoute] long id, [FromBody] Trophy updatedTrophy)
         {
-            return _trophyRepository.UpdateTrophy(id, updatedTrophy);
+            return _trophyLogic.UpdateTrophy(id, updatedTrophy);
         }
 
 

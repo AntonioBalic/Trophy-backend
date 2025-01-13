@@ -7,8 +7,8 @@ namespace AntonioBalic_Lab_07.Logic
 
         public IEnumerable<Trophy> AddTrophy(Trophy trophy);
 
-        //public IEnumerable<Trophy> DeleteTrophy(long id);
+        public IEnumerable<Trophy> DeleteTrophy(long id);
 
-        //public IEnumerable<Trophy> UpdateTrophy(long id, Trophy trophy);
+        public IEnumerable<Trophy> UpdateTrophy(long id, Trophy trophy);
     }
 }

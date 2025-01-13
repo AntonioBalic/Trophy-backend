@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ITrophyRepository, TrophySqlRepository>();
-//builder.Services.AddSingleton<ITrophyLogic, TrophyLogic>();
+builder.Services.AddSingleton<ITrophyLogic, TrophyLogic>();
 
 var app = builder.Build();
 
