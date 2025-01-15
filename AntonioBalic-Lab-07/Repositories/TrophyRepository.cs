@@ -1,8 +1,50 @@
-﻿namespace AntonioBalic_Lab_07.Repositories
+﻿using AntonioBalic_Lab_07.Models;
+using Microsoft.AspNetCore.Mvc;
+using AntonioBalic_Lab_07.Models;
+
+namespace AntonioBalic_Lab_07.Repositories
 {
-    public class TrophyRepository
+    public class TrophyRepository : ITrophyRepository
     {
-        public List<Trophy> Trophy;
+        private List<Trophy> Trophy { get; set; }
+
+        public IEnumerable<Trophy> GetTrophies()
+        {
+            return Trophy;
+        }
+
+        public IEnumerable<Trophy> AddTrophy([FromBody] Trophy trophy)
+        {
+            Trophy.Add(trophy);
+            return Trophy;
+        }
+
+        public IEnumerable<Trophy> DeleteTrophy([FromRoute] long id)
+        {
+            Trophy = Trophy.Where(x => x.Id != id).ToList();
+            return Trophy;
+        }
+
+        public IEnumerable<Trophy> UpdateTrophy([FromRoute] long id, [FromBody] Trophy updatedTrophy)
+        {
+            var oldTrophy = Trophy.FirstOrDefault(x => x.Id == id);
+
+            if (oldTrophy == null)
+            {
+                return Trophy;
+            }
+            else
+            {
+                oldTrophy.Sportclub = updatedTrophy.Sportclub;
+                oldTrophy.Trophyname = updatedTrophy.Trophyname;
+                oldTrophy.Rank = updatedTrophy.Rank;
+                oldTrophy.Year = updatedTrophy.Year;
+                oldTrophy.Sponsors = updatedTrophy.Sponsors;
+
+                return Trophy;
+            }
+        }
+
         public TrophyRepository()
         {
             Trophy = new List<Trophy>();
