@@ -4,6 +4,7 @@ using AntonioBalic_Lab_07.Repositories;
 using AntonioBalic_Lab_07.Models;
 using AntonioBalic_Lab_07.Logic;
 using AntonioBalic_Lab_07.Filters;
+using AntonioBalic_Lab_07.DTO;
 
 namespace AntonioBalic_Lab_07.Controllers
 {
@@ -11,7 +12,7 @@ namespace AntonioBalic_Lab_07.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class TrophyController : ControllerBase
-    {      
+    {
         private ITrophyLogic _trophyLogic;
 
         public TrophyController(ITrophyLogic trophyLogic)
@@ -20,27 +21,51 @@ namespace AntonioBalic_Lab_07.Controllers
         }
 
         [HttpGet("all")]
-        public IEnumerable<Trophy> GetTrophies()
+        public IEnumerable<TrophyDTO> GetTrophies()
         {
-            return _trophyLogic.GetTrophies();
+            //return _trophyLogic.GetTrophies();
+            var trophyList = _trophyLogic.GetTrophies();
+
+            return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
         [HttpPost("new")]
-        public IEnumerable<Trophy> AddNewTrophy([FromBody] Trophy trophy)
+        //public IEnumerable<Trophy> AddNewTrophy([FromBody] Trophy trophy)
+        //{
+        //    return _trophyLogic.AddTrophy(trophy);
+        //}
+        public IEnumerable<TrophyDTO> AddNewTrophy([FromBody] NewTrophyRequestDTO trophy)
         {
-            return _trophyLogic.AddTrophy(trophy);
+            Trophy model = trophy.ToModel();
+            var trophyList = _trophyLogic.AddTrophy(model);
+            return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
+
+
+
 
         [HttpDelete("delete/{id}")]
-        public IEnumerable<Trophy> DeleteTrophy([FromRoute] long id)
+        //public IEnumerable<Trophy> DeleteTrophy([FromRoute] long id)
+        //{
+        //    return _trophyLogic.DeleteTrophy(id);
+        //}
+        public IEnumerable<TrophyDTO> DeleteTrophy([FromRoute] long id)
         {
-            return _trophyLogic.DeleteTrophy(id);
+            var trophyList = _trophyLogic.DeleteTrophy(id);
+            return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
+
         [HttpPut("update/{id}")]
-        public IEnumerable<Trophy> UpdateTrophy([FromRoute] long id, [FromBody] Trophy updatedTrophy)
+        //public IEnumerable<Trophy> UpdateTrophy([FromRoute] long id, [FromBody] Trophy updatedTrophy)
+        //{
+        //    return _trophyLogic.UpdateTrophy(id, updatedTrophy);
+        //}
+        public IEnumerable<TrophyDTO> EditTrophy([FromRoute] long id, [FromBody] NewTrophyRequestDTO updatedTrophy)
         {
-            return _trophyLogic.UpdateTrophy(id, updatedTrophy);
+            Trophy model = updatedTrophy.ToModel();
+            var trophyList = _trophyLogic.UpdateTrophy(id, model);
+            return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
 
