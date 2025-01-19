@@ -1,6 +1,7 @@
 ﻿using AntonioBalic_Lab_07.Models;
 using AntonioBalic_Lab_07.Repositories;
 using System.Text.RegularExpressions;
+using AntonioBalic_Lab_07.Exceptions;
 
 namespace AntonioBalic_Lab_07.Logic
 {
@@ -17,28 +18,64 @@ namespace AntonioBalic_Lab_07.Logic
         private bool IsSportclubValid(string sportclub)
         {
             var sportclubRegex = @"^[a-zA-Z0-9 '&\-./]+$";
-            return (!string.IsNullOrWhiteSpace(sportclub) && Regex.IsMatch(sportclub, sportclubRegex) && sportclub.Length < 40 );
+            if (!Regex.IsMatch(sportclub, sportclubRegex))
+            {
+                throw new TrophyAppException_UserError("Club name contains forbidden character.");
+            }
+            else if(sportclub.Length > 40)
+            {
+                throw new TrophyAppException_UserError("Club name is too long.");
+            }
+            else if(string.IsNullOrWhiteSpace(sportclub))
+            {
+                throw new TrophyAppException_UserError("Club name cannot be empty.");
+            }
+            return true;
         }
 
         private bool IsTrophynameValid(string trophyname)
         {
             var trophynameRegex = @"^[a-zA-Z\s]+$";
-            return (!string.IsNullOrWhiteSpace(trophyname) && Regex.IsMatch(trophyname, trophynameRegex) && trophyname.Length < 30);
+            if ( !Regex.IsMatch(trophyname, trophynameRegex))
+            {
+                throw new TrophyAppException_UserError("Trophy name contains forbidden character.");
+            }
+            else if (trophyname.Length > 30)
+            {
+                throw new TrophyAppException_UserError("Trophy name is too long.");
+            }
+            else if(string.IsNullOrWhiteSpace(trophyname))
+            {
+                throw new TrophyAppException_UserError("Trophy name cannot be empty.");
+            }
+            return true;
         }
 
         private bool IsRankValid(int rank)
         {
-            return (rank > 0 && rank <32);
+            if (rank < 0 || rank > 32)
+            {
+                throw new TrophyAppException_UserError("Club's rank cannot exceed 32.");
+            }
+            return true;
         }
 
         private bool IsYearValid(int year)
         {
-            return (year > 1850 && year <= 2025);
+            if (year < 1850 || year > 2025)
+            {
+                throw new TrophyAppException_UserError("Year must be between 1850 and 2025.");
+            }
+            return true;
         }
 
         private bool IsSponsorsValid(List<string> sponsors)
         {
-            return sponsors.Count <= 15;  //klub moze i ne mora imati sponzora
+            if (sponsors.Count > 15) //klub moze i ne mora imati sponzora
+            {
+                throw new TrophyAppException_UserError("A club cannot have more than 15 sponsors.");
+            }
+            return true;
         }
 
         // CRUD operations

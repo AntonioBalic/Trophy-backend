@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using AntonioBalic_Lab_07.Repositories;
 using AntonioBalic_Lab_07.Models;
 using AntonioBalic_Lab_07.Logic;
+using AntonioBalic_Lab_07.Filters;
 
 namespace AntonioBalic_Lab_07.Controllers
 {
+    [ErrorFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class TrophyController : ControllerBase
