@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using AntonioBalic_Lab_07.Repositories;
 using AntonioBalic_Lab_07.Models;
 using AntonioBalic_Lab_07.Logic;
@@ -33,6 +34,7 @@ namespace AntonioBalic_Lab_07.Controllers
         {
             Trophy model = trophy.ToModel();
             var trophyList = _trophyLogic.AddTrophy(model);
+
             return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
@@ -40,6 +42,7 @@ namespace AntonioBalic_Lab_07.Controllers
         public IEnumerable<TrophyDTO> DeleteTrophy([FromRoute] long id)
         {
             var trophyList = _trophyLogic.DeleteTrophy(id);
+
             return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
@@ -48,6 +51,7 @@ namespace AntonioBalic_Lab_07.Controllers
         {
             Trophy model = updatedTrophy.ToModel();
             var trophyList = _trophyLogic.UpdateTrophy(id, model);
+
             return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 

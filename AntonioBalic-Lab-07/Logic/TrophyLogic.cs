@@ -1,9 +1,11 @@
 ﻿using AntonioBalic_Lab_07.Models;
 using AntonioBalic_Lab_07.Repositories;
-using System.Text.RegularExpressions;
 using AntonioBalic_Lab_07.Exceptions;
-using Microsoft.Extensions.Options;
 using AntonioBalic_Lab_07.Configuration;
+
+using System.Text.RegularExpressions;
+using Microsoft.Extensions.Options;
+
 
 namespace AntonioBalic_Lab_07.Logic
 {
@@ -77,7 +79,7 @@ namespace AntonioBalic_Lab_07.Logic
 
         private bool IsSponsorsValid(List<string> sponsors)
         {
-            if (sponsors.Count > _validationConfiguration.MaxSponsorsCount) //klub moze i ne mora imati sponzora
+            if (sponsors.Count > _validationConfiguration.MaxSponsorsCount) //Club isn't required to have a sponsor
             {
                 throw new TrophyAppException_UserError("A club cannot have more than 15 sponsors.");
             }
@@ -102,6 +104,7 @@ namespace AntonioBalic_Lab_07.Logic
             }
 
             _trophyRepository.AddTrophy(trophy);
+
             return _trophyRepository.GetTrophies();
         }
 
