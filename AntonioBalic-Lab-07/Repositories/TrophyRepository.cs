@@ -1,6 +1,5 @@
 ﻿using AntonioBalic_Lab_07.Models;
 using Microsoft.AspNetCore.Mvc;
-using AntonioBalic_Lab_07.Models;
 
 namespace AntonioBalic_Lab_07.Repositories
 {
