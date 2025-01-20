@@ -1,13 +1,19 @@
 ﻿using AntonioBalic_Lab_07.Models;
 using Microsoft.Data.Sqlite;
 using System.Data;
-
+using AntonioBalic_Lab_07.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace AntonioBalic_Lab_07.Repositories
 {
     public class TrophySqlRepository : ITrophyRepository
     {
-        private readonly string _connectionString = "Data Source=C:\\PI-DIS\\Trophies.db";
+        //private readonly string _connectionString = "Data Source=C:\\PI-DIS\\Trophies.db";
+        private readonly string? _connectionString;
+        public TrophySqlRepository(IOptions<DBConfiguration> configuration)
+        {
+            _connectionString = configuration.Value.ConnectionString;
+        }
 
         public IEnumerable<Trophy> AddTrophy(Trophy trophy)
         {
@@ -108,7 +114,6 @@ namespace AntonioBalic_Lab_07.Repositories
             command.Parameters.AddWithValue("$sponsors", trophy.SponsorsAsString());
 
             _ = command.ExecuteNonQuery();
-
 
             return GetTrophies();
         }

@@ -1,5 +1,6 @@
 using AntonioBalic_Lab_07.Logic;
 using AntonioBalic_Lab_07.Repositories;
+using AntonioBalic_Lab_07.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ITrophyRepository, TrophySqlRepository>();
 builder.Services.AddSingleton<ITrophyLogic, TrophyLogic>();
+
+builder.Services.Configure<DBConfiguration>(builder.Configuration.GetSection("Database"));
 
 var app = builder.Build();
 
