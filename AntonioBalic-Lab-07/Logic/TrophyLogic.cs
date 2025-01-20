@@ -2,76 +2,82 @@
 using AntonioBalic_Lab_07.Repositories;
 using System.Text.RegularExpressions;
 using AntonioBalic_Lab_07.Exceptions;
+using Microsoft.Extensions.Options;
+using AntonioBalic_Lab_07.Configuration;
 
 namespace AntonioBalic_Lab_07.Logic
 {
     public class TrophyLogic : ITrophyLogic
     {
         private readonly ITrophyRepository _trophyRepository;
+        private readonly ValidationConfiguration _validationConfiguration;
 
-        public TrophyLogic(ITrophyRepository trophyRepository)
+        public TrophyLogic(ITrophyRepository trophyRepository, IOptions<ValidationConfiguration> validationConfiguration)
         {
             _trophyRepository = trophyRepository;
+            _validationConfiguration = validationConfiguration.Value;
         }
 
         // Methods for validation of each field
         private bool IsSportclubValid(string sportclub)
         {
             var sportclubRegex = @"^[a-zA-Z0-9 '&\-./]+$";
-            if (!Regex.IsMatch(sportclub, sportclubRegex))
-            {
-                throw new TrophyAppException_UserError("Club name contains forbidden character.");
-            }
-            else if(sportclub.Length > 40)
-            {
-                throw new TrophyAppException_UserError("Club name is too long.");
-            }
-            else if(string.IsNullOrWhiteSpace(sportclub))
+            if (string.IsNullOrWhiteSpace(sportclub))
             {
                 throw new TrophyAppException_UserError("Club name cannot be empty.");
             }
+            else if (!Regex.IsMatch(sportclub, sportclubRegex))
+            {
+                throw new TrophyAppException_UserError("Club name contains forbidden character.");
+            }
+            else if(sportclub.Length > _validationConfiguration.MaxSportclubLength)
+            {
+                throw new TrophyAppException_UserError("Club name is too long.");
+            }
+
             return true;
         }
 
         private bool IsTrophynameValid(string trophyname)
         {
             var trophynameRegex = @"^[a-zA-Z\s]+$";
-            if ( !Regex.IsMatch(trophyname, trophynameRegex))
-            {
-                throw new TrophyAppException_UserError("Trophy name contains forbidden character.");
-            }
-            else if (trophyname.Length > 30)
-            {
-                throw new TrophyAppException_UserError("Trophy name is too long.");
-            }
-            else if(string.IsNullOrWhiteSpace(trophyname))
+            if (string.IsNullOrWhiteSpace(trophyname))
             {
                 throw new TrophyAppException_UserError("Trophy name cannot be empty.");
             }
+            else if ( !Regex.IsMatch(trophyname, trophynameRegex))
+            {
+                throw new TrophyAppException_UserError("Trophy name contains forbidden character.");
+            }
+            else if (trophyname.Length > _validationConfiguration.MaxTrophynameLength)
+            {
+                throw new TrophyAppException_UserError("Trophy name is too long.");
+            }
+
             return true;
         }
 
         private bool IsRankValid(int rank)
         {
-            if (rank < 0 || rank > 32)
+            if (rank <= 0 || rank > _validationConfiguration.MaxRank)
             {
-                throw new TrophyAppException_UserError("Club's rank cannot exceed 32.");
+                throw new TrophyAppException_UserError($"Club's rank cannot be negative or exceed {_validationConfiguration.MaxRank}.");
             }
             return true;
         }
 
         private bool IsYearValid(int year)
         {
-            if (year < 1850 || year > 2025)
+            if (year < 1850 || year > _validationConfiguration.MaxYear)
             {
-                throw new TrophyAppException_UserError("Year must be between 1850 and 2025.");
+                throw new TrophyAppException_UserError($"Year must be between 1850 and {_validationConfiguration.MaxYear}.");
             }
             return true;
         }
 
         private bool IsSponsorsValid(List<string> sponsors)
         {
-            if (sponsors.Count > 15) //klub moze i ne mora imati sponzora
+            if (sponsors.Count > _validationConfiguration.MaxSponsorsCount) //klub moze i ne mora imati sponzora
             {
                 throw new TrophyAppException_UserError("A club cannot have more than 15 sponsors.");
             }

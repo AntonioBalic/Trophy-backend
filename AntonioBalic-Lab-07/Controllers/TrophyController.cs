@@ -8,7 +8,7 @@ using AntonioBalic_Lab_07.DTO;
 
 namespace AntonioBalic_Lab_07.Controllers
 {
-    [ErrorFilter]
+    //[ErrorFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class TrophyController : ControllerBase
@@ -23,17 +23,12 @@ namespace AntonioBalic_Lab_07.Controllers
         [HttpGet("all")]
         public IEnumerable<TrophyDTO> GetTrophies()
         {
-            //return _trophyLogic.GetTrophies();
             var trophyList = _trophyLogic.GetTrophies();
 
             return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
         [HttpPost("new")]
-        //public IEnumerable<Trophy> AddNewTrophy([FromBody] Trophy trophy)
-        //{
-        //    return _trophyLogic.AddTrophy(trophy);
-        //}
         public IEnumerable<TrophyDTO> AddNewTrophy([FromBody] NewTrophyRequestDTO trophy)
         {
             Trophy model = trophy.ToModel();
@@ -41,26 +36,14 @@ namespace AntonioBalic_Lab_07.Controllers
             return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
-
-
-
         [HttpDelete("delete/{id}")]
-        //public IEnumerable<Trophy> DeleteTrophy([FromRoute] long id)
-        //{
-        //    return _trophyLogic.DeleteTrophy(id);
-        //}
         public IEnumerable<TrophyDTO> DeleteTrophy([FromRoute] long id)
         {
             var trophyList = _trophyLogic.DeleteTrophy(id);
             return trophyList.Select(x => TrophyDTO.FromModel(x));
         }
 
-
         [HttpPut("update/{id}")]
-        //public IEnumerable<Trophy> UpdateTrophy([FromRoute] long id, [FromBody] Trophy updatedTrophy)
-        //{
-        //    return _trophyLogic.UpdateTrophy(id, updatedTrophy);
-        //}
         public IEnumerable<TrophyDTO> EditTrophy([FromRoute] long id, [FromBody] NewTrophyRequestDTO updatedTrophy)
         {
             Trophy model = updatedTrophy.ToModel();
