@@ -21,6 +21,11 @@ builder.Services.AddSingleton<ITrophyLogic, TrophyLogic>();
 builder.Services.Configure<DBConfiguration>(builder.Configuration.GetSection("Database"));
 builder.Services.Configure<ValidationConfiguration>(builder.Configuration.GetSection("Validation"));
 
+builder.Services.AddCors(p => p.AddPolicy("cors_policy_allow_all", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("cors_policy_allow_all");
 
 app.UseAuthorization();
 
